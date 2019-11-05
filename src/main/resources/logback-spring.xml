@@ -2,7 +2,7 @@
 
 <configuration debug="false" scan="false">
 	<springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
-	<property name="log.path" value="logs/${spring.application.name}"/>
+	<property name="log.path" value="./logs/${spring.application.name}"/>
 	<!-- 彩色日志格式 -->
 	<property name="CONSOLE_LOG_PATTERN"
 			  value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
@@ -48,10 +48,21 @@
 		</filter>
 	</appender>
 
-	<!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
-	<root level="INFO">
-		<appender-ref ref="console"/>
-		<appender-ref ref="debug"/>
-		<appender-ref ref="error"/>
-	</root>
+	<springProfile name="local,dev">
+		<!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
+		<root level="INFO">
+			<appender-ref ref="console"/>
+			<appender-ref ref="debug"/>
+			<appender-ref ref="error"/>
+		</root>
+	</springProfile>
+
+	<!-- 生产环境 -->
+	<springProfile name="prod">
+		<root level="info">
+			<appender-ref ref="console"/>
+			<appender-ref ref="debug"/>
+			<appender-ref ref="file"/>
+		</root>
+	</springProfile>
 </configuration>
