@@ -1,0 +1,24 @@
+server:
+  port: 18763
+
+eureka-cluster:
+  node1: eureka-cluster-node1:18761
+  node2: eureka-cluster-node2:18762
+
+spring:
+  security:
+    user:
+      name: fseurekacluster
+      password: 81646a7364950775039f694b1ddd6c8a
+
+eureka:
+  instance:
+    hostname: eureka-cluster-node3
+    instance-id: eureka-cluster-node3
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka-cluster.node1}/eureka/,http://${spring.security.user.name}:${spring.security.user.password}@${eureka-cluster.node2}/eureka/
+  server:
+    enable-self-preservation: true
