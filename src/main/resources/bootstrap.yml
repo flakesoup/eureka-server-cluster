@@ -1,9 +1,9 @@
-env: local
-
 server:
   port: 18761
 
 spring:
+  profiles:
+    active: ${env}
   application:
     name: flakesoup-eureka
   boot:
